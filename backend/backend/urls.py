@@ -17,11 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from .accounts.views import CustomTokenCreateView
+
 urlpatterns = [
     path("admin/", admin.site.urls),
 
     # Djoser auth endpoints
     path("api/auth/", include("djoser.urls")),
+path("api/auth/jwt/create/", CustomTokenCreateView.as_view(), name="jwt-create"),
     path("api/auth/", include("djoser.urls.jwt")),
 
 ]
