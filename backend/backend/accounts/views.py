@@ -4,14 +4,13 @@ from django.shortcuts import render
 # your_app/views.py
 from djoser.views import TokenCreateView
 from django.contrib.auth.models import update_last_login
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
 
-class CustomTokenCreateView(TokenCreateView):
-    def _action(self, serializer):
-        response = super()._action(serializer)
+# your_app/views.py
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
 
-        user = serializer.user
-        if user:
-            update_last_login(None, user)
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
-        return response

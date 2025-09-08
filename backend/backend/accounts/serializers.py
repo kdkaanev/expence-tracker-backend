@@ -8,16 +8,24 @@ from .models import ExpenceTrackerUser
 
 
 # your_app/serializers.py
-from djoser.serializers import TokenCreateSerializer
+from rest_framework_simplejwt.serializers import TokenObtainSerializer
 from django.contrib.auth.models import update_last_login
 
-class CustomTokenCreateSerializer(TokenCreateSerializer):
+# your_app/serializers.py
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.contrib.auth.models import update_last_login
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
 
-        user = self.user  # Djoser вече сетва self.user при успешен login
-        print("DEBUG: CustomTokenCreateSerializer called for", user)
-        if user:
-            update_last_login(None, user)
+
+        # self.user е достъпен тук
+        refresh = self.get_token(self.user)
+        data["refresh"] = str(refresh)
+        data["access"] = str(refresh.access_token)
+
+        update_last_login(None, self.user)
 
         return data
+

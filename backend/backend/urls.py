@@ -16,15 +16,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView
+)
 
-from .accounts.views import CustomTokenCreateView
+from .accounts.views import CustomTokenObtainPairView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
 
     # Djoser auth endpoints
+
     path("api/auth/", include("djoser.urls")),
-path("api/auth/jwt/create/", CustomTokenCreateView.as_view(), name="jwt-create"),
-    path("api/auth/", include("djoser.urls.jwt")),
+
+    path("api/auth/jwt/create/", CustomTokenObtainPairView.as_view(), name="jwt-create"),
+
+    path("api/auth/jwt/refresh/", TokenRefreshView.as_view(), name="jwt-refresh"),
+    path("api/auth/jwt/verify/", TokenVerifyView.as_view(), name="jwt-verify"),
 
 ]

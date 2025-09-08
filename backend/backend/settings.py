@@ -38,10 +38,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'backend.api',
+
+
+    'rest_framework_simplejwt',
     'djoser',
-    "rest_framework.authtoken",
     'backend.accounts',
-    'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
@@ -141,8 +142,7 @@ AUTH_USER_MODEL = 'accounts.ExpenceTrackerUser'
 
 DJOSER = {
     "USER_CREATE_PASSWORD_RETYPE": True,
-    "SERIALIZERS": {
+    "LOGIN_FIELD": "email",
 
-        "token_create": "backend.accounts.serializers.CustomTokenCreateSerializer",
-    },
+
 }
