@@ -2,10 +2,7 @@ from djoser.serializers import UserCreateSerializer, UserSerializer,TokenCreateS
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import update_last_login
 from rest_framework import serializers
-from .models import ExpenceTrackerUser
-
-
-
+from .models import ExpenceTrackerUser, Profile
 
 # your_app/serializers.py
 from rest_framework_simplejwt.serializers import TokenObtainSerializer
@@ -28,4 +25,13 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         update_last_login(None, self.user)
 
         return data
+
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('first_name', 'last_name',)
+
+
 

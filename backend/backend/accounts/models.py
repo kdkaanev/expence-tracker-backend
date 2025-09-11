@@ -8,8 +8,6 @@ from django.contrib.auth import models as auth_models
 from django.db import models
 
 
-
-
 class ExpenceTrackerUserManager(auth_models.BaseUserManager):
     use_in_migrations = True
 
@@ -33,7 +31,7 @@ class ExpenceTrackerUserManager(auth_models.BaseUserManager):
         await user.asave(using=self._db)
         return user
 
-    def create_user(self,email, password=None, **extra_fields):
+    def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
         return self._create_user(email, password, **extra_fields)
@@ -47,7 +45,7 @@ class ExpenceTrackerUserManager(auth_models.BaseUserManager):
 
     acreate_user.alters_data = True
 
-    def create_superuser(self,email, password=None, **extra_fields):
+    def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
 
@@ -61,7 +59,7 @@ class ExpenceTrackerUserManager(auth_models.BaseUserManager):
     create_superuser.alters_data = True
 
     async def acreate_superuser(
-        self,email=None, password=None, **extra_fields
+            self, email=None, password=None, **extra_fields
     ):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
@@ -76,7 +74,7 @@ class ExpenceTrackerUserManager(auth_models.BaseUserManager):
     acreate_superuser.alters_data = True
 
     def with_perm(
-        self, perm, is_active=True, include_superusers=True, backend=None, obj=None
+            self, perm, is_active=True, include_superusers=True, backend=None, obj=None
     ):
         if backend is None:
             backends = auth._get_backends(return_tuples=True)
@@ -127,10 +125,30 @@ class ExpenceTrackerUser(auth_models.AbstractBaseUser, auth_models.PermissionsMi
 
     )
     USERNAME_FIELD = 'email'
-
     objects = ExpenceTrackerUserManager()
 
 
+class Profile(models.Model):
+    first_name = models.CharField(
+        max_length=30,
+        blank=True,
+        null=True,
+    )
+    last_name = models.CharField(
+        max_length=30,
+        blank=True,
+        null=True,
+    )
+    user = models.OneToOneField(
+        ExpenceTrackerUser,
+        on_delete=models.CASCADE,
+        related_name='profile'
+    )
+
+    def __str__(self):
+        return f"{self.user.email}'s Profile"
 
 
-# Create your models here.
+
+
+
