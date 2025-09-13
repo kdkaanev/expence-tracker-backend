@@ -11,3 +11,20 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Transaction(models.Model):
+    amount = models.DecimalField(decimal_places=2, max_digits=10)
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="cat_transactions")
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="user_transactions")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.amount} in {self.category.name}"
