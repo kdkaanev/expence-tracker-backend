@@ -14,6 +14,7 @@ class Category(models.Model):
 
 
 class Transaction(models.Model):
+    description = models.TextField(blank=True)
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     category = models.ForeignKey(
         Category,
