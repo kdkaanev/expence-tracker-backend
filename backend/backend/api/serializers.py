@@ -15,12 +15,12 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class TransactionSerializer(serializers.ModelSerializer):
     category_name = serializers.SerializerMethodField()
-    created_at = serializers.DateTimeField(format="%d/%m/%Y %H:%M")
+
 
     class Meta:
         model = Transaction
-        fields = ["id", "amount", "category_name", "user", "created_at","description"]
-        read_only_fields = ["user",]
+        fields = ["id", "amount", "category_name", "user","description","transaction_date","category",]
+        read_only_fields = ["user","created_at"]
 
     def create(self, validated_data):
         validated_data["user"] = self.context["request"].user

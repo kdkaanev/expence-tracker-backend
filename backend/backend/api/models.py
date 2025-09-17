@@ -26,6 +26,7 @@ class Transaction(models.Model):
         on_delete=models.CASCADE,
         related_name="user_transactions")
     created_at = models.DateTimeField(auto_now_add=True)
+    transaction_date = models.DateField()
 
     def __str__(self):
         return f"{self.amount} in {self.category.name}"
