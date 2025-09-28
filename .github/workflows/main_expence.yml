@@ -29,12 +29,12 @@ jobs:
       # Събиране на статичните файлове
       - name: Collect static
         run: |
-          python manage.py collectstatic --noinput
+          cd backend && python manage.py collectstatic --noinput
 
       # Миграции (ако искаш автоматично да се прилагат)
       - name: Run migrations
         run: |
-          python manage.py migrate
+          cd backend && python manage.py migrate
 
       # Деплой в Azure Web App
       - name: Deploy to Azure Web App
