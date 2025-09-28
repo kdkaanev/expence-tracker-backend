@@ -4,7 +4,3 @@
 .env.*.local
 __pycache__/
 *.pyc
-instance/
-.webassets-cache
-.pytest_cache/
-.coverage
