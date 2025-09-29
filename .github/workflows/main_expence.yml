@@ -32,10 +32,7 @@ jobs:
         run: |
           cd backend && python manage.py collectstatic --noinput
 
-      # Миграции (ако искаш автоматично да се прилагат)
-      - name: Run migrations
-        run: |
-          cd backend && python manage.py migrate
+     
 
       # Деплой в Azure Web App
       - name: Deploy to Azure Web App
@@ -44,4 +41,5 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: .
+
 
