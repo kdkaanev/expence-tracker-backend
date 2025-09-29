@@ -31,7 +31,7 @@ DEBUG = os.getenv("DJANGO_DEBUG", "Тrue")== "True"
 if DEBUG:
     ALLOWED_HOSTS = []
 else:
-    ALLOWED_HOSTS = ["expence.azurewebsites.net"]
+    ALLOWED_HOSTS = ["expence.azurewebsites.net", "localhost", "127.0.0.1"]
 
 # Application definition
 
