@@ -26,6 +26,7 @@ from .accounts.views import CustomTokenObtainPairView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path( "me/", include("backend.accounts.urls")),
     path("api/", include("backend.api.urls")),
 
     # Djoser auth endpoints
