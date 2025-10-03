@@ -16,18 +16,29 @@ from rest_framework import status
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
-@api_view(['GET','PUT', 'PATCH'])
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def me(request):
     user = request.user
+    profile = getatrr(user, 'profile', None)
+    return Response({
+        'id': user.id,
+        'email': user.email,
+        'profile': {
+            'first_name': getatrr(profile, 'first_name', '') if profile else '',
+            'last_name': getatrr(profile, 'last_name', '') if profile else '',
 
+            
+@api_view(['GET', 'PATCH'])
+@permission_classes([IsAuthenticated])
+def me_profile (request):
+    profile = request.user.profile
     if request.method == 'GET':
-        serializer = ExpenceTrackerUserSerializer(user)
-        return Response(serializer.data)
-
-    if request.method in ['PUT', 'PATCH']:
-        serializer = ExpenceTrackerUserSerializer(user, data=request.data, partial=True)
+        return Response(ProfileSerializer(profile).data)
+    if request.method == 'PATCH':
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(ExpenceTrackerUserSerializer(user).data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data)
+        return  Response(serializer.errors, status=400)
+        
