@@ -34,4 +34,21 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ('first_name', 'last_name',)
 
 
+class ExpenceTrackerUserSerializer(UserSerializer):
+    profile = ProfileSerializer(required=False)
+
+    class Meta(UserSerializer.Meta):
+        model = ExpenceTrackerUser
+        fields = ('id', 'email', 'profile',)
+
+    def update(self, instance, validated_data):
+        profile_data = validated_data.pop('profile', None)
+        instance = super().update(instance, validated_data)
+
+        if profile_data:
+            Profile.objects.update_or_create(user=instance, defaults=profile_data)
+
+        return instance
+
+
 
