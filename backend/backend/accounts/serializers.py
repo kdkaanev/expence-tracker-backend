@@ -1,8 +1,9 @@
 from djoser.serializers import UserCreateSerializer, UserSerializer,TokenCreateSerializer
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.models import update_last_login
 from rest_framework import serializers
 from .models import ExpenceTrackerUser, Profile
+
 
 # your_app/serializers.py
 from rest_framework_simplejwt.serializers import TokenObtainSerializer
@@ -11,6 +12,8 @@ from django.contrib.auth.models import update_last_login
 # your_app/serializers.py
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import update_last_login
+
+ExpenceTrackerUser = get_user_model()
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -43,12 +46,20 @@ class ExpenceTrackerUserSerializer(UserSerializer):
 
     def update(self, instance, validated_data):
         profile_data = validated_data.pop('profile', None)
-        instance = super().update(instance, validated_data)
+        user = super().update(instance, validated_data)
 
         if profile_data:
-            Profile.objects.update_or_create(user=instance, defaults=profile_data)
+            profile = getattr(user, 'profile', None)
+            if profile:
+               for atr, value in profile_data.items():
+                   setattr(profile, attr, value)
+                   profile.save()
+            else:
+                Profile.objects.create(user=user, **profile_data)
 
-        return instance
+        user.refresh_from_db()
+
+        return user
 
 
 
