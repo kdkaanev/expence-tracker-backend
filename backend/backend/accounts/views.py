@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import CustomTokenObtainPairSerializer, ExpenceTrackerUserSerializer, ProfileSerializer
+from .serializers import CustomTokenObtainPairSerializer, ProfileSerializer
 from rest_framework import status
 
 
@@ -27,6 +27,8 @@ def me(request):
         'profile': {
             'first_name': getatrr(profile, 'first_name', '') if profile else '',
             'last_name': getatrr(profile, 'last_name', '') if profile else '',
+        }
+    })
 
             
 @api_view(['GET', 'PATCH'])
