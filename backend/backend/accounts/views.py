@@ -20,13 +20,13 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 @permission_classes([IsAuthenticated])
 def me(request):
     user = request.user
-    profile = getatrr(user, 'profile', None)
+    profile = getattr(user, 'profile', None)
     return Response({
         'id': user.id,
         'email': user.email,
         'profile': {
-            'first_name': getatrr(profile, 'first_name', '') if profile else '',
-            'last_name': getatrr(profile, 'last_name', '') if profile else '',
+            'first_name': getattr(profile, 'first_name', '') if profile else '',
+            'last_name': getattr(profile, 'last_name', '') if profile else '',
         }
     })
 
