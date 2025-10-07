@@ -5,7 +5,7 @@ from .models import Category, Transaction
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ["id", "name", "description","type", "owner"]
+        fields = ["id", "name", "description","owner"]
         read_only_fields = ["owner"]
 
     def create(self, validated_data):

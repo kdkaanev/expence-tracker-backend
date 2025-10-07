@@ -12,10 +12,7 @@ CATEGORY_CHOICES = [
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    type = models.CharField(
-        max_length=10,
-        choices=CATEGORY_CHOICES, default= False
-    )
+    
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="categories")
 
@@ -26,6 +23,10 @@ class Category(models.Model):
 class Transaction(models.Model):
     description = models.TextField(blank=True)
     amount = models.DecimalField(decimal_places=2, max_digits=10)
+    type = models.CharField(
+        max_length=10,
+        choices=CATEGORY_CHOICES, default= False
+    )
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
