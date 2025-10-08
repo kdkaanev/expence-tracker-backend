@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import Category, Transaction
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'owner', 'description')
+    list_display = ('name', 'owner',)
     search_fields = ('name', 'owner__username')
     list_filter = ('owner',)
     ordering = ('name',)
