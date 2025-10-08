@@ -19,7 +19,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ["id", "amount", "category_name", "user","description","transaction_date","category",]
+        fields = ["id", "amount", "category_name", "user","description","transaction_date","category", 'type']
         read_only_fields = ["user","created_at"]
 
     def create(self, validated_data):

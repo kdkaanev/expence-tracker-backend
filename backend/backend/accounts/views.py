@@ -1,7 +1,6 @@
 from django.shortcuts import render
 
 
-from djoser.views import TokenCreateView
 from django.contrib.auth.models import update_last_login
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response

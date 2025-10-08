@@ -4,8 +4,8 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 CATEGORY_CHOICES = [
-    ('Expense', 'expense'),
-    ('Income', 'income'),
+    ('expense', 'Expense'),
+    ('income', 'Income'),
 ]
 
 
