@@ -1,7 +1,7 @@
 from django.utils.dateparse import parse_date
 from rest_framework import viewsets, permissions
-from .models import Category, Transaction
-from .serializers import CategorySerializer, TransactionSerializer
+from .models import Category, Transaction, Budget
+from .serializers import CategorySerializer, TransactionSerializer, BudgetSerializer
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -36,4 +36,11 @@ class TransactionViewSet(viewsets.ModelViewSet):
             if start_date and end_date:
                 queryset = queryset.filter(created_at__date__range=(start_date, end_date))
         return queryset
+    
+class BudgetViewSet(viewsets.ModelViewSet):
+    serializer_class = BudgetSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Budget.objects.filter(user=self.request.user).select_related('category').prefetch_related('transactions')
 
