@@ -37,7 +37,7 @@ class BudgetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Budget
-        fields = ["id", "amount", "category", "category_name", "transactions", "user", "created_at"]
+        fields = ["id", "amount", "spent", "category", "category_name", "transactions", "user", "created_at"]
         read_only_fields = ["user", "created_at"]
 
     def create(self, validated_data):

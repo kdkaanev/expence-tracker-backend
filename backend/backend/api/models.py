@@ -38,6 +38,9 @@ class Transaction(models.Model):
 class Budget(models.Model):
 
     amount = models.DecimalField(decimal_places=2, max_digits=10)
+    spent = models.DecimalField(
+        decimal_places=2, max_digits=10, default=0
+    )  # New field to track spent amount
 
     created_at = models.DateTimeField(auto_now_add=True)
 
