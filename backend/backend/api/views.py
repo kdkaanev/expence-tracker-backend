@@ -1,7 +1,12 @@
 from django.utils.dateparse import parse_date
-from rest_framework import viewsets, permissions
-from .models import Category, Transaction, Budget
-from .serializers import CategorySerializer, TransactionSerializer, BudgetSerializer
+from rest_framework import viewsets, permissions, status
+from .models import Category, Transaction, Budget, Pots 
+from .serializers import CategorySerializer, TransactionSerializer, BudgetSerializer, PotsSerializer
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from django.db import transaction as db_transaction
+from decimal import Decimal
+from django.utils.timezone import now
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -44,3 +49,61 @@ class BudgetViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Budget.objects.filter(user=self.request.user).select_related('category')
 
+class PotsViewSet(viewsets.ModelViewSet):
+    queryset = Pots.objects.all()
+    serializer_class = PotsSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Pots.objects.filter(user=self.request.user)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        
+    @action(detail=True, methods=['post'])
+    @db_transaction.atomic
+    def add_funds(self, request, pk=None):
+        pot = self.get_object()
+        amount = Decimal(str(request.data.get('amount', 0)))
+        if amount <= 0:
+            return Response({'error': 'Amount must be positive.'}, status=status.HTTP_400_BAD_REQUEST)
+        with db_transaction.atomic():
+            pot.saved += amount
+            pot.save()
+            
+            category, _ = Category.objects.get_or_create(name='Pots',owner=self.request.user)
+            
+            Transaction.objects.create(
+                amount=amount,
+                category=category,
+                description=f'Added funds to pot {pot.pot}',
+                type='expense',
+                transaction_date=now(),
+                user=self.request.user
+            )
+        return Response(PotsSerializer(pot).data, status=status.HTTP_200_OK)
+    
+    
+    @action(detail=True, methods=['post'])
+    @db_transaction.atomic
+    def withdraw_funds(self, request, pk=None):
+        pot = self.get_object()
+        amount = Decimal(str(request.data.get('amount', 0)))
+        if amount <= 0:
+            return Response({'error': 'Amount must be positive.'}, status=status.HTTP_400_BAD_REQUEST)
+        if amount > pot.saved:
+            return Response({'error': 'Insufficient funds in the pot.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        pot.saved -= amount
+        pot
+        category, _ = Category.objects.get_or_create(name='Pots', owner=self.request.user)
+            
+        Transaction.objects.create(
+                amount=amount,
+                category=category,
+                description=f'Withdrew funds from pot {pot.pot}',
+                type='income',
+                transaction_date=now(),
+                user=self.request.user
+            )
+        return Response(PotsSerializer(pot).data, status=status.HTTP_200_OK)

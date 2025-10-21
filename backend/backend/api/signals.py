@@ -17,6 +17,8 @@ def recalculate_budget_spent(category):
 @receiver(post_save, sender=Transaction)
 def  update_budget_spent_on_save(sender, instance, created, **kwargs):
     recalculate_budget_spent(instance.category)
+    
+
 
 # Signal to update the budget when a transaction is deleted
 

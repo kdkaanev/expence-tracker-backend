@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from decimal import Decimal
 
 User = get_user_model()
 
@@ -31,6 +32,8 @@ class Transaction(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     transaction_date = models.DateField()
 
+    
+
     def __str__(self):
         return f"{self.amount} in {self.category.name}"
 
@@ -58,3 +61,19 @@ class Meta:
 
 def __str__(self):
     return f"{self.user} - {self.category.name}: {self.amount} лв."
+
+
+
+class Pots(models.Model):
+    pot = models.CharField(max_length=100)
+    saved  = models.DecimalField(decimal_places=2, max_digits=15, default=0)
+    goal = models.DecimalField(decimal_places=2, max_digits=15)
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="user_pots"
+    )
+    
+    
+
+    def __str__(self):
+        return f"{self.name} - {self.balance} лв."

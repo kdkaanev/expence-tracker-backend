@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Transaction, Budget
+from .models import Category, Transaction, Budget, Pots
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -46,3 +46,12 @@ class BudgetSerializer(serializers.ModelSerializer):
 
     def get_category_name(self, obj):
         return obj.category.name.lower() if obj.category else None
+
+
+class PotsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pots
+        fields = ["id", "pot", "goal", "saved", "user", "created_at"]
+        read_only_fields = ["user", "created_at"]
+
+    
