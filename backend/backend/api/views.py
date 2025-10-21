@@ -64,15 +64,15 @@ class PotsViewSet(viewsets.ModelViewSet):
     @db_transaction.atomic
     def add_funds(self, request, pk=None):
         pot = self.get_object()
-        amount = Decimal(str(request.data.get('amount', 0)))
+        amount = Decimal(str(request.data.get('amount', 0))).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         if amount <= 0:
             return Response({'error': 'Amount must be positive.'}, status=status.HTTP_400_BAD_REQUEST)
         with db_transaction.atomic():
-            pot.saved += amount
+            pot.saved = (pot.saved + amount).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
             pot.save()
-            
-            category, _ = Category.objects.get_or_create(name='Pots',owner=self.request.user)
-            
+
+            category, _ = Category.objects.get_or_create(name='Pots', owner=self.request.user)
+
             Transaction.objects.create(
                 amount=amount,
                 category=category,
@@ -88,14 +88,14 @@ class PotsViewSet(viewsets.ModelViewSet):
     @db_transaction.atomic
     def withdraw_funds(self, request, pk=None):
         pot = self.get_object()
-        amount = Decimal(str(request.data.get('amount', 0)))
+        amount = Decimal(str(request.data.get('amount', 0))).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         if amount <= 0:
             return Response({'error': 'Amount must be positive.'}, status=status.HTTP_400_BAD_REQUEST)
         if amount > pot.saved:
             return Response({'error': 'Insufficient funds in the pot.'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        pot.saved -= amount
-        pot
+
+        pot.saved = (pot.saved - amount).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        pot.save()
         category, _ = Category.objects.get_or_create(name='Pots', owner=self.request.user)
             
         Transaction.objects.create(
