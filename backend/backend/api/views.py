@@ -80,7 +80,7 @@ class PotsViewSet(viewsets.ModelViewSet):
                 type='expense',
                 transaction_date=now(),
                 user=self.request.user,
-                pot_id=pot.id
+                pot=pot
             )
         return Response(PotsSerializer(pot).data, status=status.HTTP_200_OK)
     
@@ -106,6 +106,6 @@ class PotsViewSet(viewsets.ModelViewSet):
                 type='income',
                 transaction_date=now(),
                 user=self.request.user,
-                pot_id=pot.id
+                pot=pot
             )
         return Response(PotsSerializer(pot).data, status=status.HTTP_200_OK)
