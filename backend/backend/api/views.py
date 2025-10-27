@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from django.db import transaction as db_transaction
 from decimal import Decimal
 from django.utils.timezone import now
-
+from decimal import Decimal, ROUND_HALF_UP
 
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
@@ -79,7 +79,8 @@ class PotsViewSet(viewsets.ModelViewSet):
                 description=f'Added funds to pot {pot.pot}',
                 type='expense',
                 transaction_date=now(),
-                user=self.request.user
+                user=self.request.user,
+                pot_id=pot.id
             )
         return Response(PotsSerializer(pot).data, status=status.HTTP_200_OK)
     
@@ -104,6 +105,7 @@ class PotsViewSet(viewsets.ModelViewSet):
                 description=f'Withdrew funds from pot {pot.pot}',
                 type='income',
                 transaction_date=now(),
-                user=self.request.user
+                user=self.request.user,
+                pot_id=pot.id
             )
         return Response(PotsSerializer(pot).data, status=status.HTTP_200_OK)
