@@ -32,7 +32,7 @@ DEBUG = True
 
 
 
-ALLOWED_HOSTS = ["expencetracker-aqhzd2fvfnhaaydd.northeurope-01.azurewebsites.net", "localhost", "127.0.0.1", "expence-tracker.azurewebsites.net"]
+ALLOWED_HOSTS = ["expencetracker-aqhzd2fvfnhaaydd.northeurope-01.azurewebsites.net", "localhost", "127.0.0.1", "purple-bush-04800311e.3.azurestaticapps.net"]
 
 # Application definition
 
@@ -70,7 +70,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
     'https://expencetracker-aqhzd2fvfnhaaydd.northeurope-01.azurewebsites.net',
-    'https://expence-tracker.azurewebsites.net',
+    'https://purple-bush-04800311e.3.azurestaticapps.net',
 ]
 
 
