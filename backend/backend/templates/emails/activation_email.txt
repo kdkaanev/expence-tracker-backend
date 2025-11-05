@@ -1,0 +1,13 @@
+Subject: Confirm your ExpenseTracker email
+
+Hi {{ user_name }},
+
+Thanks for signing up to ExpenseTracker!
+
+Please confirm your email address by visiting the link below:
+
+{{ activation_link }}
+
+If you didn't create an account, ignore this message.
+
+— ExpenseTracker Team
