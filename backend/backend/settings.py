@@ -32,7 +32,7 @@ DEBUG = True
 
 
 
-ALLOWED_HOSTS = ["expene-gnfgb0daa0eqfkbr.northeurope-01.azurewebsites.net", "localhost", "127.0.0.1", "lemon-bush-0466b141e.3.azurestaticapps.net"]
+ALLOWED_HOSTS = ["expence-epcwcbdwemaed5fj.northeurope-01.azurewebsites.net", "localhost:5173", "127.0.0.1",]
 
 # Application definition
 
@@ -69,8 +69,9 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
-    'https://expene-gnfgb0daa0eqfkbr.northeurope-01.azurewebsites.net',
-    'https://lemon-bush-0466b141e.3.azurestaticapps.net'
+    'https://expence-epcwcbdwemaed5fj.northeurope-01.azurewebsites.net',
+    'http://localhost:5173',
+    
 ]
 
 
