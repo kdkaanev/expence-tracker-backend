@@ -32,7 +32,7 @@ DEBUG = True
 
 
 
-ALLOWED_HOSTS = ["https://expence-epcwcbdwemaed5fj.northeurope-01.azurewebsites.net/", "localhost:5173", "127.0.0.1",]
+ALLOWED_HOSTS = ["expence-epcwcbdwemaed5fj.northeurope-01.azurewebsites.net", "localhost:5173", "127.0.0.1",]
 
 # Application definition
 
