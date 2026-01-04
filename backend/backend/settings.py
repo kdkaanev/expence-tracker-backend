@@ -32,7 +32,7 @@ DEBUG = True
 
 
 
-ALLOWED_HOSTS = ["expence-epcwcbdwemaed5fj.northeurope-01.azurewebsites.net", "localhost:5173", "127.0.0.1",]
+ALLOWED_HOSTS = ["expence-epcwcbdwemaed5fj.northeurope-01.azurewebsites.net", "localhost:5173", "127.0.0.1", "yellow-flower-0c3b7781e.6.azurestaticapps.net"]
 
 # Application definition
 
@@ -71,6 +71,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
     'https://expence-epcwcbdwemaed5fj.northeurope-01.azurewebsites.net',
     'http://localhost:5173',
+    'https://yellow-flower-0c3b7781e.6.azurestaticapps.net',
     
 ]
 
