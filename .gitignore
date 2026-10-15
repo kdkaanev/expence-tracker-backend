@@ -1,6 +1,25 @@
-.venv
-.idea
-.env
-.env.*.local
+# Python
+.venv/
 __pycache__/
-*.pyc
+*.py[cod]
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+
+# Local databases
+mydatabase
+*.sqlite3
+*.db
+
+# Django generated files
+staticfiles/
+media/
+
+# Logs
+*.log
