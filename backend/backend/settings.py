@@ -30,8 +30,15 @@ SECRET_KEY =  os.getenv("DJANGO_SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv(
+        "ALLOWED_HOSTS",
+        "localhost,127.0.0.1,expence-epcwcbdwemaed5fj.northeurope-01.azurewebsites.net,yellow-flower-0c3b7781e.6.azurestaticapps.net"
+    ).split(",")
+    if host.strip()
+]
 
-ALLOWED_HOSTS = ["expence-epcwcbdwemaed5fj.northeurope-01.azurewebsites.net", "localhost:5173", "127.0.0.1", "yellow-flower-0c3b7781e.6.azurestaticapps.net"]
 
 # Application definition
 
